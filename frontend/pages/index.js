@@ -17,32 +17,27 @@ export default function Home() {
   const getAllWaves = async () => {
     try {
       const { ethereum } = window;
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const wavePortalContract = new ethers.Contract(
-          contractAddress,
-          contractAbi,
-          signer
-        );
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const wavePortalContract = new ethers.Contract(
+        contractAddress,
+        contractAbi,
+        provider
+      );
 
-        const waves = await wavePortalContract.getAllWaves();
+      const waves = await wavePortalContract.getAllWaves();
 
-        let wavesCleaned = [];
-        waves.forEach((wave) => {
-          wavesCleaned.push({
-            address: wave.waver,
-            timestamp: new Date(wave.timestamp * 1000),
-            message: wave.message,
-          });
+      let wavesCleaned = [];
+      waves.forEach((wave) => {
+        wavesCleaned.push({
+          address: wave.waver,
+          timestamp: new Date(wave.timestamp * 1000),
+          message: wave.message,
         });
+      });
 
-        setAllWaves(wavesCleaned);
-      } else {
-        console.log("Ethereum object doesn't exist!");
-      }
+      setAllWaves(wavesCleaned);
     } catch (error) {
-      console.log(error);
+      console.log("no waaaves", error);
     }
   };
 
@@ -54,14 +49,13 @@ export default function Home() {
         console.log("Make sure you have metamask connected");
         return;
       } else {
-        console.log("We have ethereum object: ", ethereum);
+        console.log("We have ethereum object!!!!!: ", ethereum);
       }
 
       const accounts = await ethereum.request({ method: "eth_accounts" });
 
       if (accounts.length !== 0) {
         accounts = accounts[0];
-        getAllWaves();
         setCurrentAccount(accounts);
       } else {
         console.log("No authorized accounts found");
@@ -135,7 +129,9 @@ export default function Home() {
       setErrorMessage("");
     }, 3000);
   });
+
   useEffect(() => {
+    getAllWaves();
     checkIfWalletIsConnected();
   }, []);
 
@@ -222,12 +218,13 @@ export default function Home() {
               <h3 className="text-lg font-semibold">
                 If your life was a <span>Memoir</span> what could be it's title?
               </h3>
-              <a href="https://umbria.network/connect/ethereum-testnet-rinkeby" target="_blank">
-                <span className="text-xs italic underline cursor-pointer">Connect with Metamask to the Rinkeby Network</span>
-                </a>
+              <a href="">
+                <span className="text-xs italic underline cursor-pointer">
+                  Connect with Metamask to the Rinkeby Network
+                </span>
+              </a>
             </div>
           </div>
-         
         </div>
 
         {/* left div */}
@@ -238,7 +235,7 @@ export default function Home() {
           <div className="p-4 w-full h-full flex flex-col justify-center items-center space-y-2">
             <div className="w-full sticky z-50 lg:mt-40">
               <div className="flex items-center w-full justify-center">
-                <h3 className="text-2xl  font-semibold">
+                <h3 className="text-2xl  font-semibold text-red-500">
                   Write your Memoir's title!
                 </h3>
                 <Image src="/emoji.png" width="50" height="50" />
@@ -255,16 +252,20 @@ export default function Home() {
                 </div>
               )}
 
-               
-          {!currentAccount && (
-            <button
-              onClick={connectWallet}
-              className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
-               text-white font-bold py-2 px-4 rounded mt-5"
-            >
-              Connect Wallet
-            </button>
-          )}
+              {!currentAccount && (
+                <>
+                  <p className="mt-6 py-1 text-xs font-bold underline text-blue-700">
+                    Connect your wallet to share your memoir title!
+                  </p>
+                  <button
+                    onClick={connectWallet}
+                    className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
+               text-white font-bold py-2 px-4 rounded mb-5"
+                  >
+                    Connect Wallet
+                  </button>
+                </>
+              )}
 
               {currentAccount && (
                 <div className="flex flex-col space-y-2 w-full items-center">
@@ -301,8 +302,11 @@ export default function Home() {
                    bg-red-200 rounded-md p-2 text-left"
                     >
                       <div className="flex w-full space-x-3 items-center">
-                      <img src={`https://avatars.dicebear.com/api/human/${index}.svg`} alt="" 
-                          className=" w-10 h-10 rounded-full bg-pink-700 p-1" />
+                        <img
+                          src={`https://avatars.dicebear.com/api/human/${index}.svg`}
+                          alt=""
+                          className=" w-10 h-10 rounded-full bg-pink-700 p-1"
+                        />
                         <p className="text-900 font-semibold">{wave.message}</p>
                       </div>
                       <div className="text-xs pt-2">
