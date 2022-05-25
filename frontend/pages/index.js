@@ -224,16 +224,7 @@ export default function Home() {
               </h3>
             </div>
           </div>
-
-          {!currentAccount && (
-            <button
-              onClick={connectWallet}
-              className="bg-gradient-to-r from-teal-400 to-blue-500 hover:bg-blue-700
-               text-white font-bold py-2 px-4 rounded"
-            >
-              Connect Wallet
-            </button>
-          )}
+         
         </div>
 
         {/* left div */}
@@ -260,6 +251,18 @@ export default function Home() {
                   {errorMessage}
                 </div>
               )}
+
+               
+          {!currentAccount && (
+            <button
+              onClick={connectWallet}
+              className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
+               text-white font-bold py-2 px-4 rounded mt-5"
+            >
+              Connect Wallet
+            </button>
+          )}
+
               {currentAccount && (
                 <div className="flex flex-col space-y-2 w-full items-center">
                   <div className="rounded-xl w-full">
