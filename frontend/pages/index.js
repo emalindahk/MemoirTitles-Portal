@@ -218,10 +218,13 @@ export default function Home() {
             </div>
 
             <p></p>
-            <div className="flex items-center pt-16 text-left w-full ">
+            <div className="flex flex-col pt-16 text-left w-full ">
               <h3 className="text-lg font-semibold">
                 If your life was a <span>Memoir</span> what could be it's title?
               </h3>
+              <a href="https://umbria.network/connect/ethereum-testnet-rinkeby" target="_blank">
+                <span className="text-xs italic underline cursor-pointer">Connect with Metamask to the Rinkeby Network</span>
+                </a>
             </div>
           </div>
          
