@@ -285,7 +285,7 @@ function ideasboard() {
           </div>
 
           <div className="pt-4 text-sm text-gray-600 max-w-3xl">
-            <p>Welcome to Memoirs DAO.</p>
+            <p>Welcome to Memoir DAO.</p>
             <div>
               To contribute you need to have to buildspace NFT.
               Don't worry if you dont have one.
