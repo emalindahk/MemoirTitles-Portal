@@ -24,6 +24,14 @@ function ideasboard() {
     setOpen(!open);
   };
 
+  const checkNFT = () => {
+    if(buildSpaceNFT.length > 0){
+      openModal()
+    }else {
+      setErrorMessage("You need a BuildSpace NFT to add an Idea")
+    }
+  }
+
   async function getNFTs() {
     const data = await axios
       .get(
@@ -171,7 +179,6 @@ function ideasboard() {
       console.log("Error", error);
     }
   };
-
   const handleVoting = (i) => {
     if(buildSpaceNFT.length > 0){
       vote(i);
@@ -187,7 +194,7 @@ function ideasboard() {
   useEffect(() => {
     setTimeout(() => {
       setErrorMessage("");
-    }, 3000);
+    }, 5000);
   });
 
   useEffect(() => {
@@ -265,7 +272,7 @@ function ideasboard() {
 
               {currentAccount && (
                 <button
-                  onClick={openModal}
+                  onClick={checkNFT}
                   className="bg-pink-800 hover:bg-pink-600
                    text-white font-bold py-2 px-4 rounded w-40"
                 >
