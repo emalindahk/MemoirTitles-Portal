@@ -7,8 +7,13 @@ import "hardhat/console.sol";
 contract WavePortal {
     uint256 totalWaves;
     uint256 private seed;
+    uint totalIdeas;
 
     event NewWave(address indexed from, uint256 timestamp, string message);
+
+    event NewIdea(address indexed from, uint256 timestamp, string idea);
+
+    event NewVote(address indexed from, uint256 votes);
 
     struct Wave {
         address waver;
@@ -16,7 +21,22 @@ contract WavePortal {
         uint256 timestamp;
     }
 
+    struct Voter {
+        address voter;
+        bool voted;
+    }
+
+      struct Idea {
+        address creator;
+        string name; 
+        uint256 timestamp;
+        uint256 voteCount;
+    }
+
+    mapping(address => Voter) public voters;
+
     Wave[] waves;
+    Idea[] public ideas;
 
     mapping(address => uint256) public lastWavedAt;
 
@@ -27,8 +47,8 @@ contract WavePortal {
 
     function wave(string memory _message) public {
         require(
-            lastWavedAt[msg.sender] + 15 minutes < block.timestamp,
-            "Wait 15m"
+            lastWavedAt[msg.sender] + 5 seconds < block.timestamp,
+            "Wait 5 seconds"
         );
 
         lastWavedAt[msg.sender] = block.timestamp;
@@ -68,5 +88,32 @@ contract WavePortal {
     {
         console.log("%s has waved %d times:", _addr, totalWaves);
         return totalWaves;
+    }
+
+    function createIdea(string memory _idea) public {
+        totalIdeas += 1;
+
+        ideas.push(Idea(msg.sender, _idea, block.timestamp, 0));
+        emit NewIdea(msg.sender, block.timestamp, _idea);
+    }
+
+    function getAllIdeas() public view returns (Idea[] memory) {
+        return ideas;
+    }
+
+    function vote(uint _idea) public {
+        Voter storage sender = voters[msg.sender];
+        require(!sender.voted, "Already Voted");
+
+        sender.voted = true;
+
+        ideas[_idea].voteCount += 1;
+
+        emit NewVote(msg.sender, ideas[_idea].voteCount);
+    }
+
+    function hasVoted() public view returns (bool) {
+        Voter storage _voter = voters[msg.sender];
+        return _voter.voted;
     }
 }

@@ -37,6 +37,22 @@ const main = async () => {
 
 
   let allWaves = await waveContract.getAllWaves();
+
+  let ideaTxn = await waveContract.createIdea("This is an idea no 1");
+  await ideaTxn.wait();
+
+  ideaTxn = await waveContract.createIdea("This is an idea no 2");
+  await ideaTxn.wait();
+
+
+  const voteTxn = await waveContract.vote(0);
+  await voteTxn.wait();
+
+  let allIdeas = await waveContract.getAllIdeas();
+  console.log(allIdeas)
+
+  let voter = await waveContract.hasVoted();
+  console.log(voter)
   };
 
 

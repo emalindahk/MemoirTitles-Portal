@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ethers } from "ethers";
 import abi from "../utils/WavePortal.json";
+import Header from "../components/Header";
+import LeftSection from "../components/LeftSection";
+import RightSection from "../components/RightSection";
 
 export default function Home() {
   const [currentAccount, setCurrentAccount] = useState("");
-  const contractAddress = "0x80B8e23d69333779D1b96974814af30125cc50dd";
+  const contractAddress = "0x72d03688eeD34ae20216a939Ad57E97859637BD1";
   const contractAbi = abi.abi;
   const [waves, setWaves] = useState("");
   const [allWaves, setAllWaves] = useState([]);
@@ -97,7 +100,6 @@ export default function Home() {
         );
 
         let count = await wavePortalContract.getTotalWaves();
-        console.log("Total Waves", count.toNumber());
 
         const waveTxn = await wavePortalContract.wave(message, {
           gasLimit: 300000,
@@ -107,7 +109,6 @@ export default function Home() {
 
         count = await wavePortalContract.getTotalWaves();
         setWaves(count.toNumber());
-        console.log("All wave counts are: ", count.toNumber());
       } else {
         console.log("No ethereum object");
       }
@@ -179,8 +180,10 @@ export default function Home() {
       <main className="flex flex-col md:flex-row h-full w-full text-center">
         {/* right div */}
         <div className="w-full p-4 h-full">
-          <div className="flex flex-col items-center h-full justify-center text-left">
-            <div className="flex flex-col space-y-2">
+          {/* header section */}
+          <Header />
+          <LeftSection>
+            <div className="flex flex-col space-y-2 w-full">
               <h1
                 className="text-6xl font-semibold text-transparent bg-clip-text
                bg-gradient-to-br from-red-200 via-red-300 to-yellow-200"
@@ -218,24 +221,21 @@ export default function Home() {
               <h3 className="text-lg font-semibold">
                 If your life was a <span>Memoir</span> what could be it's title?
               </h3>
-              <a href="">
+              <a href="https://umbria.network/connect/ethereum-testnet-rinkeby" target="_blank">
                 <span className="text-xs italic underline cursor-pointer">
                   Connect with Metamask to the Rinkeby Network
                 </span>
               </a>
             </div>
-          </div>
+          </LeftSection>
         </div>
 
         {/* left div */}
-        <div
-          className="w-full bg-gradient-to-br from-red-200 via-red-300 to-yellow-200
-         h-full flex flex-col justify-center "
-        >
+        <RightSection>
           <div className="p-4 w-full h-full flex flex-col justify-center items-center space-y-2">
-            <div className="w-full sticky z-50 lg:mt-40">
+            <div className="w-full lg:mt-20">
               <div className="flex items-center w-full justify-center">
-                <h3 className="text-2xl  font-semibold text-red-500">
+                <h3 className="text-3xl  font-semibold text-red-500">
                   Write your Memoir's title!
                 </h3>
                 <Image src="/emoji.png" width="50" height="50" />
@@ -254,15 +254,12 @@ export default function Home() {
 
               {!currentAccount && (
                 <>
-                  <p className="mt-6 py-1 text-xs font-bold underline text-blue-700">
-                    Connect your wallet to share your memoir title!
-                  </p>
                   <button
                     onClick={connectWallet}
                     className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
-               text-white font-bold py-2 px-4 rounded mb-5"
+               text-white font-bold py-2 px-4 rounded mb-5 mt-3"
                   >
-                    Connect Wallet
+                    Connect Wallet to add your title.
                   </button>
                 </>
               )}
@@ -322,7 +319,7 @@ export default function Home() {
               })}
             </div>
           </div>
-        </div>
+        </RightSection>
       </main>
     </div>
   );
