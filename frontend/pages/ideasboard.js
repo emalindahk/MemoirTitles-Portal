@@ -255,9 +255,11 @@ function ideasboard() {
                 Voting
               </h2>
               <h3 className="text-4xl font-semibold text-gray-800">
-                Open Ideas : 3
+                Open Ideas : {allIdeas.length}
               </h3>
             </div>
+
+           
            
             <div className="">
               {!currentAccount && (
@@ -281,6 +283,19 @@ function ideasboard() {
               )}
             </div>
           </div>
+
+          <div className="pt-4 text-sm text-gray-600 max-w-3xl">
+            <p>Welcome to Memoirs DAO.</p>
+            <div>
+              To contribute you need to have to buildspace NFT.
+              Don't worry if you dont have one.
+              Head over to <a href="https://buildspace.so/" className="font-semibold underline
+              text-transparent bg-clip-text
+              bg-gradient-to-br from-red-400 via-red-500 to-yellow-300"> BuildSpace</a>, 
+              complete one of our projects, and claim and NFT for yourself.
+            </div>
+
+            </div>
 
           <section className="relative py-20 2xl:py-40">
           {errorMessage && <div className="bg-red-400 text-white max-w-lg w-full py-1 px-2 rounded-lg">Error! {errorMessage}</div>}
